@@ -140,7 +140,48 @@ def checkout():
 
     browser.close()
 
+def test_sort_price():
+    with sync_playwright() as p:
+      browser = p.chromium.launch(headless=False)
+      page = browser.new_page()
+      
+      # 1. Buka web
+      page.goto("https://www.saucedemo.com")
+
+      # 2. Isi form login
+      page.fill('input[data-test="username"]', 'standard_user')
+      page.fill('input[data-test="password"]', 'secret_sauce')
+      page.click('input[data-test="login-button"]')
+
+      # 3. Pastikan masuk halaman inventory
+      assert "inventory.html" in page.url
+
+      # 4. Pilih sort price low to high
+      page.select_option('select.product_sort_container', 'lohi')
+
+      # 5. Ambil harga dari setiap item
+      harga_locator = page.locator('[data-test="inventory-item-price"]')
+      count_harga = harga_locator.count()
+
+      harga_list = []
+      harga_locator = page.locator('[data-test="inventory-item-price"]')
+      harga_list = harga_locator.all_inner_texts()
+      harga_list = [float(h.replace('$', '')) for h in harga_list]
+
+      # 6. Validasi urutan harga
+      print("List harga:", harga_list)
+      print("Ekspektasi harga terurut:", sorted(harga_list))
+
+      if harga_list == sorted(harga_list):
+          print("✅ Harga sudah terurut dengan benar!")
+      else:
+          print("❌ Harga TIDAK terurut dengan benar!")
+
+      page.wait_for_timeout(3000)
+      browser.close()
+
 if __name__ == "__main__":
-    test_login_and_add_to_cart()
-    test_logout()
-    checkout()
+    # test_login_and_add_to_cart()
+    # test_logout()
+    # checkout()
+    test_sort_price()
