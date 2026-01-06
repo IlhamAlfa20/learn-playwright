@@ -69,7 +69,7 @@ def test_logout():
 
       browser.close()
 
-def checkout():
+def test_checkout():
   with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
     page = browser.new_page()
@@ -181,7 +181,7 @@ def test_sort_price():
       browser.close()
 
 if __name__ == "__main__":
-    # test_login_and_add_to_cart()
-    # test_logout()
-    # checkout()
+    test_login_and_add_to_cart()
+    test_logout()
+    test_checkout()
     test_sort_price()

@@ -9,9 +9,9 @@ def test_login_tokopedia():
         page.goto("https://www.tokopedia.com")
 
         # 2. login
-        page.wait_for_selector('div.css-11hzwo5', timeout=2000)
-        page.click('div.css-11hzwo5')
-        page.wait_for_timeout(1000)
+        # page.wait_for_selector('div.css-11hzwo5', timeout=2000)
+        # page.click('div.css-11hzwo5')
+        # page.wait_for_timeout(1000)
 
         page.click('[data-testid="btnHeaderLogin"]')
 
